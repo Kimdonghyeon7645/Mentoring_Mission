@@ -24,7 +24,7 @@ DAO, DTO란 무엇일까?
 단순히 내 추측에 안주하지 않고, 다양한 자료들을 찾아보았지만,
 현재 결론으론, **장고는 DTO 하나만 만들면, DAO, 테이블이 자동 생성** 된다고 정리했다.
 
-- 장고 **DTO**
+### - 장고 **DTO**
 
   장고의 DTO는 다름아닌, 애플리케이션에 있는 ```models.py``` 에 담겨있다.
 
@@ -102,73 +102,73 @@ DAO, DTO란 무엇일까?
           db_table = 'auth_group'
   ```
 
-  - 장고 **DAO**
+### - 장고 **DAO**
 
-    아까 DTO를 장고 모델로 생성하면, 테이블과 DAO가 자동으로 생성된다 했었고,
-    DTO과 테이블이 서로를 자동 생성 할 수 있는 것은 위에서 보았었다.
+아까 DTO를 장고 모델로 생성하면, 테이블과 DAO가 자동으로 생성된다 했었고,
+DTO과 테이블이 서로를 자동 생성 할 수 있는 것은 위에서 보았었다.
 
-    그럼 장고의 DAO는 어딨을까?
+그럼 장고의 DAO는 어딨을까?
 
-    장고에는 **기본(디폴트)으로 모델 클래스의 DB 데이터를 CRUD 할 수 있는 Model Manager(모델 매니저) 가 존재한다.**
+장고에는 **기본(디폴트)으로 모델 클래스의 DB 데이터를 CRUD 할 수 있는 Model Manager(모델 매니저) 가 존재한다.**
 
-    ```모델클래스명.objects``` 와 같이하면, 해당 모델 클래스의 **기본 모델 매니저**를 반환하며,
+```모델클래스명.objects``` 와 같이하면, 해당 모델 클래스의 **기본 모델 매니저**를 반환하며,
 
-    이 뒤에, 기본 모델 매니저가 가지고 있는 다양한 메소드들로 쿼리문을 생성해, CRUD 를 할 수 있으며,  
-    이 **SQL을 생성해주는 인터페이스를 쿼리셋(Query Set)** 이라고 하며, **모델 매니저(Model Manager)를 통해서 해당 Model의 쿼리셋을 구할 수 있다.** 따라서 그 역할에 맞는 SQL문을 생성한다.
+이 뒤에, 기본 모델 매니저가 가지고 있는 다양한 메소드들로 쿼리문을 생성해, CRUD 를 할 수 있으며,  
+이 **SQL을 생성해주는 인터페이스를 쿼리셋(Query Set)** 이라고 하며, **모델 매니저(Model Manager)를 통해서 해당 Model의 쿼리셋을 구할 수 있다.** 따라서 그 역할에 맞는 SQL문을 생성한다.
 
-    ```python
-    Post.objects.all() 		# “SELECT * FROM post…” 와 같은 SQL문 생성
-    Post.objects.create()	# “INSERT INTO post VALUES(…)” 와 같은 SQL문 생성
-    ```
+```python
+Post.objects.all() 		# “SELECT * FROM post…” 와 같은 SQL문 생성
+Post.objects.create()	# “INSERT INTO post VALUES(…)” 와 같은 SQL문 생성
+```
 
-    이미 모델 매니저에서 제공하는 메소드도 엄청 많은데,
+이미 모델 매니저에서 제공하는 메소드도 엄청 많은데,
 
-    ```markdown
-    ## 모델 객체를 반환하는 메서드
-    count() : 데이터의 개수 반환 
-    first() :첫번째 객체 반환 
-    last() :마지막 객체 반환 
-    update() :지정한 필드만 갱신(일부 데이터만 변경하더라도 save()로 저장하면 모델의 필드 전체 변경. update를 이용할 경우 변경된 필드만 업데이트) 
-    delete() : 데이터베이스 삭제 
-    get_or_create(조건, default=생성할 데이터의 값): 지정한 데이터를 가져오되 없을 경우 생성. 생성될 데이터의 값은 dict 객체로 지정 
-    update_or_create(조건, default = 생성할 데이터의 값) : 업데이트하거나 없으면 생성
-    
-    ## queryset 객체를 반환하는 메서드
-    all() : 모든 데이터를 query set으로 반환 
-    filter(조건) : 조건식으로 데이터를 찾는다. 
-    exclude(조건) : 조건에 일치 하지 않는 데이터 
-    order_by(정렬필드) : 지정한 필드를 기준으로 오른차순정렬. 내림차순은 '-'를 붙여주면된다. 
-    distinct(필드이름) : 필드 이름이 같은 것이 있다면 겹치지 않게 가져오기
-    
-    ## 필터링에서 추가할 수 있는 조건
-    -exact : 정확히 같은 데이터를 탐색 
-    -iexact: 대소문자 무시하고 같은 데이터 탐색 
-    -contains : 지정한 문자열을 포함하는 데이터 탐색 
-    -icontains: 대소문자 무시하고..
-    -in : 리스트나 튜플 자료형이 있는 값들에 해당하는 데이터 탐색 
-    -gt : 지정한 값을 초과하는 데이터(greater than) 
-    -gte : 지정한 데티어 이상 
-    -it : 지정한 값미만 (less than) 
-    -lte : 지정한 값 이하 
-    -startswith : 지정한 문자열로 시작하는 데이터 
-    -istartswith : 대소문자 무시하고... 
-    -endswith : 지정한 문자열로 끝나는 
-    -iendswith : 대소문자 무시하고... 
-    -range : 범위에 해당하는 데이터 탐색. 리스트나 튜플로 지정 
-    -year: dateField와 DateTimeField와 대응하여 지정년도의 데이터탐색 
-    -month : 지정한 월 
-    -week_day : 지정한 요일, 1은 일요일 7은 토요일 
-    -hour, minute, secoond: 시,분, 초 지정) 
-    -isnull: null 인 데이터 탐색(true 와 False 지정) 
-    -search : contains와 비슷하지만 데이터베이스의 full-text indexing을 이용하여 좀더 빠르게 처리 -regex : 정규 표현식으로 데이터 탐색 
-    -iregex: 대소문자 무시하고 ...
-    ```
+```markdown
+## 모델 객체를 반환하는 메서드
+count() : 데이터의 개수 반환 
+first() :첫번째 객체 반환 
+last() :마지막 객체 반환 
+update() :지정한 필드만 갱신(일부 데이터만 변경하더라도 save()로 저장하면 모델의 필드 전체 변경. update를 이용할 경우 변경된 필드만 업데이트) 
+delete() : 데이터베이스 삭제 
+get_or_create(조건, default=생성할 데이터의 값): 지정한 데이터를 가져오되 없을 경우 생성. 생성될 데이터의 값은 dict 객체로 지정 
+update_or_create(조건, default = 생성할 데이터의 값) : 업데이트하거나 없으면 생성
 
-    이외에도 내가 추가하고 싶은 메소드가 있다면, ```models.Manager``` 를 상속하는 클래스로 해서, 직접 **모델 매니저**를 만들어 주고, 그것을 적용할 모델 클래스에, ```objects = 모델매니저이름()``` 과 같이 정의해주면, 그 모델 클래스는 직접 만들어준 모델 매니저를 사용할 수 있다.
+## queryset 객체를 반환하는 메서드
+all() : 모든 데이터를 query set으로 반환 
+filter(조건) : 조건식으로 데이터를 찾는다. 
+exclude(조건) : 조건에 일치 하지 않는 데이터 
+order_by(정렬필드) : 지정한 필드를 기준으로 오른차순정렬. 내림차순은 '-'를 붙여주면된다. 
+distinct(필드이름) : 필드 이름이 같은 것이 있다면 겹치지 않게 가져오기
 
-    [참고 (장고 공식 문서)](https://docs.djangoproject.com/en/1.10/topics/db/managers/)
+## 필터링에서 추가할 수 있는 조건
+-exact : 정확히 같은 데이터를 탐색 
+-iexact: 대소문자 무시하고 같은 데이터 탐색 
+-contains : 지정한 문자열을 포함하는 데이터 탐색 
+-icontains: 대소문자 무시하고..
+-in : 리스트나 튜플 자료형이 있는 값들에 해당하는 데이터 탐색 
+-gt : 지정한 값을 초과하는 데이터(greater than) 
+-gte : 지정한 데티어 이상 
+-it : 지정한 값미만 (less than) 
+-lte : 지정한 값 이하 
+-startswith : 지정한 문자열로 시작하는 데이터 
+-istartswith : 대소문자 무시하고... 
+-endswith : 지정한 문자열로 끝나는 
+-iendswith : 대소문자 무시하고... 
+-range : 범위에 해당하는 데이터 탐색. 리스트나 튜플로 지정 
+-year: dateField와 DateTimeField와 대응하여 지정년도의 데이터탐색 
+-month : 지정한 월 
+-week_day : 지정한 요일, 1은 일요일 7은 토요일 
+-hour, minute, secoond: 시,분, 초 지정) 
+-isnull: null 인 데이터 탐색(true 와 False 지정) 
+-search : contains와 비슷하지만 데이터베이스의 full-text indexing을 이용하여 좀더 빠르게 처리 -regex : 정규 표현식으로 데이터 탐색 
+-iregex: 대소문자 무시하고 ...
+```
 
-    이렇게 해서, 장고에서도 비즈니스 로직과, DB 접근 로직을 분리해서, DB 조회및 조작 로직을 **모델 매니저** 를 활용해 구현해 줄 수 있다.
+이외에도 내가 추가하고 싶은 메소드가 있다면, ```models.Manager``` 를 상속하는 클래스로 해서, 직접 **모델 매니저**를 만들어 주고, 그것을 적용할 모델 클래스에, ```objects = 모델매니저이름()``` 과 같이 정의해주면, 그 모델 클래스는 직접 만들어준 모델 매니저를 사용할 수 있다.
+
+[참고 (장고 공식 문서)](https://docs.djangoproject.com/en/1.10/topics/db/managers/)
+
+이렇게 해서, 장고에서도 비즈니스 로직과, DB 접근 로직을 분리해서, DB 조회및 조작 로직을 **모델 매니저** 를 활용해 구현해 줄 수 있다.
 
     
 
