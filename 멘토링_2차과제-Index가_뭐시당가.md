@@ -76,9 +76,9 @@
         add constraint PK_mixedTbl_userID
             primary key (userID);	-- PK 지정시 클러스터 인덱스 생성
     
-  DROP INDEX PRIMARY ON table_name	-- 클러스터 인덱스 삭제
-    alter table mixedTbl
-        drop primary key;	-- 클러스터 인덱스(pk)를 삭제하려면 반드시 보조(논클러스터) 인덱스를 삭제해야 함
+      DROP INDEX PRIMARY ON table_name	-- 클러스터 인덱스 삭제
+        alter table mixedTbl
+            drop primary key;	-- 클러스터 인덱스(pk)를 삭제하려면 반드시 보조(논클러스터) 인덱스를 삭제해야 함
     ```
     
     
