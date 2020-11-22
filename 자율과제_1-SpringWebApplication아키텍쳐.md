@@ -51,5 +51,38 @@
         - 서로 다른 Aggregate 경계를 가지는 도메인 끼리만 서비스 사용
         
 
+## 주석
 
+<li>    
+<a name="트렌젝션">트렌젝션</a> 
+: 더이상 쪼갤 수 없는 최소 단위의 작업,<br /> 
+<a href="https://happyer16.tistory.com/entry/6-6-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EC%86%8D%EC%84%B1?category=692836">참고1</a>, 
+<a href="https://goddaehee.tistory.com/167">참고2</a> 
+</li>
+
+<li>    
+<a name="도메인">도메인</a> 
+: 소프트웨어로 해결, 구현하고자 하는 문제영역<br />
+    <ul>
+    ex) 온라인 서점이 구현할 소프트웨어일때, (상품조회, 구매, 배송, 추적등의 기능을 구현할) 온라인 서점 = 도메인, 한 도메인(온라인 서점)은 여러 하위 도메인으로 나뉠 수 있음<br />
+    자세한 내용은 DDD, 도메인 공학 참고<br />
+    </ul>
+<a href="https://medium.com/react-native-seoul/%EB%8F%84%EB%A9%94%EC%9D%B8-%EC%A3%BC%EB%8F%84-%EC%84%A4%EA%B3%84-domain-driven-design-in-real-project-1-%EB%8F%84%EB%A9%94%EC%9D%B8-83a5e31c5e45">참고1</a>, 
+<a href="https://12bme.tistory.com/522">참고2</a> 
+</li>
+
+<li>    
+<a name="VO">VO와 엔티티(Entity)를 분류하는 방법</a> 
+: <a href="http://springmvc.egloos.com/624397">참고</a> 
+</li>
+
+<li>    
+<a name="도메인서비스">도메인 서비스</a> 
+: <a href="http://springmvc.egloos.com/726522">참고</a> 
+</li>
+  
+<li>    
+<a name="Aggregate">Aggregate</a> 
+: <a href="http://blog.naver.com/PostView.nhn?blogId=loopbit&logNo=221201046142&parentCategoryNo=49&categoryNo=56&viewDate=&isShowPopularPosts=false&from=postView">참고</a> 
+</li>
 
